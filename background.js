@@ -1,4 +1,4 @@
-// get IP using webRequest
+var isCanShow = true;
 var currentDetailList	= {};
 chrome.webRequest.onCompleted.addListener(
   function(details) {
@@ -6,7 +6,7 @@ chrome.webRequest.onCompleted.addListener(
 	return;
   },
   {
-	urls: [],
+	urls: ["http://*.zhiniu8.com/*","http://*.yy.com/*"],
 	types: []
   },
   ['responseHeaders']
@@ -19,61 +19,39 @@ chrome.extension.onMessage.addListener(
 	{
 		switch (request.name)
 		{
-			
 			case "setOptions":
-				// request from the content script to set the options.
-				//localStorage["websiteIP_status"] = websiteIP_status;
-				localStorage.setItem("websiteIP_status", request.status);
+				isCanShow = request.isCanShow;
+				console.log('isCanShow ' + isCanShow);
+				sendResponse({"isCanShow":isCanShow});
 			break;
 			
 			case "getOptions":
 				// request from the content script to get the options.
 				sendResponse({
-					enableDisableIP : localStorage["websiteIP_status"]
+					isCanShow : isCanShow
 				});
 			break;
 		
 			case "getIP":
 				var currentURL = sender.tab.url;
-				var isCanShow = request.status || true;
+				console.log('isCanShow ' + isCanShow);
 				if (currentDetailList[currentURL] !== undefined) {
 					sendResponse({
-						"isCanShow":isCanShow,
-						"details":currentDetailList[currentURL]
+						"isCanShow":true,
+						"detail":currentDetailList[currentURL]
 					});
 				} else {
-					sendResponse(null);
+					sendResponse({
+						"isCanShow":false,
+						"detail":null
+					});
 				}
 				
 			break;
 			
 			default:
-			sendResponse({});
+			sendResponse({"isCanShow":isCanShow});
 		}
 	}
 );
 
-// Add icon to URL bar
-function checkForValidUrl(tabId, changeInfo, tab) {
-	chrome.pageAction.show(tab.id);
-};
-
-// Listen for any changes to the URL of any tab
-chrome.tabs.onUpdated.addListener(checkForValidUrl);
-
-// Set the item in the localstorage
-function setItem(key, value) {
-	window.localStorage.removeItem(key);
-	window.localStorage.setItem(key, value);
-}
-
-// Get the item from local storage with the specified key
-function getItem(key) {
-	var value;
-	try {
-		value = window.localStorage.getItem(key);
-	}catch(e) {
-		value = "null";
-	}
-	return value;
-}

@@ -9,7 +9,7 @@
 		"48": "/images/icon48.png", 
 		"128": "/images/icon128.png"
 	},
-	"permissions": ["tabs", "http://*/*", "https://*/*", "webRequest","webRequestBlocking"],
+	"permissions": ["tabs", "http://*.zhiniu8.com/*", "https://*.zhiniu8.com/*", "webRequest","webRequestBlocking"],
 	"background": {
 		"scripts": [ "background.js" ]
 	},
@@ -27,7 +27,7 @@
 		"run_at": "document_end", 
 		"js": ["jquery.min.js", "ip.js"],
 		"css": ["css/ip.css"], 
-		"matches": ["http://*/*", "https://*/*"]
+		"matches": ["http://*.zhiniu8.com/*", "https://*.zhiniu8.com/*"]
 	}]
    
 }
