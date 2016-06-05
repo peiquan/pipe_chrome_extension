@@ -32,7 +32,7 @@ chrome.extension.onMessage.addListener(
 				});
 			break;
 		
-			case "getIP":
+			case "getInfo":
 				var currentURL = sender.tab.url;
 				console.log('isCanShow ' + isCanShow);
 				if (currentDetailList[currentURL] !== undefined) {

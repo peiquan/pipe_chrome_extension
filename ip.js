@@ -1,7 +1,6 @@
-// Set variables
 $(document).ready(function() {
-	chrome.extension.sendMessage({name: "getIP"}, function(info) {
-		console.log(info);
+	chrome.extension.sendMessage({name: "getInfo"}, function(info) {
+		// console.log(info);
 		if (info == undefined) {return;}
 		var isCanShow = info.isCanShow;
 		if (isCanShow == true) {
@@ -14,7 +13,7 @@ $(document).ready(function() {
 			// console.log(headerObj);
 			var t = "";
 			t += "<table>";
-			t += "<tr><td>ip</td><td>" + ip +"</tr>";
+			t += "<tr><td>" + headerObj.pipe_log_timestamp +  "</td><td>" + ip +"</tr>";
 			if(headerObj.pipe_front_times != undefined){
 				t += "<tr><td>" + info.detail.url + "</td><td>" + headerObj.pipe_front_times +" ms</tr>";
 			}	
@@ -26,7 +25,16 @@ $(document).ready(function() {
 				}
 				backTimesArray.sort(backTimesSortOrder);
 				for(var i = 0,len = backTimesArray.length;i<len;i++){
-					t += "<tr><td>" + backTimesArray[i].key + "</td><td>" + backTimesArray[i].time +" ms</tr>";
+					t += "<tr><td>" + backTimesArray[i].key + "</td><td>";
+					if (backTimesArray[i].time < 0) {
+						if (backTimesArray[i].time == -1) {
+							t += "异常</tr>";	
+						} else if(backTimesArray[i].time == -2){
+							t += "5s超时</tr>";
+						}
+					} else {
+						t += backTimesArray[i].time +" ms</tr>";
+					}
 				}
 			}
 			t += "</table>";
