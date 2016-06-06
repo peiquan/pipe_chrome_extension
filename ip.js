@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	chrome.extension.sendMessage({name: "getInfo"}, function(info) {
-		// console.log(info);
+		console.log(info);
 		if (info == undefined) {return;}
 		var isCanShow = info.isCanShow;
 		if (isCanShow == true) {
@@ -13,7 +13,11 @@ $(document).ready(function() {
 			// console.log(headerObj);
 			var t = "";
 			t += "<table>";
-			t += "<tr><td>" + headerObj.pipe_log_timestamp +  "</td><td>" + ip +"</tr>";
+			t += "<tr>";
+			if( headerObj.pipe_log_timestamp != undefined ) {
+				t += "<td>" + headerObj.pipe_log_timestamp +  "</td>";
+			}
+			t += "<td>" + ip +"</tr>";
 			if(headerObj.pipe_front_times != undefined){
 				t += "<tr><td>" + info.detail.url + "</td><td>" + headerObj.pipe_front_times +" ms</tr>";
 			}	

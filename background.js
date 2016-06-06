@@ -6,7 +6,7 @@ chrome.webRequest.onCompleted.addListener(
 	return;
   },
   {
-	urls: ["http://*.zhiniu8.com/*","http://*.yy.com/*"],
+	urls: [],
 	types: []
   },
   ['responseHeaders']
@@ -21,12 +21,10 @@ chrome.extension.onMessage.addListener(
 		{
 			case "setOptions":
 				isCanShow = request.isCanShow;
-				console.log('isCanShow ' + isCanShow);
 				sendResponse({"isCanShow":isCanShow});
 			break;
 			
 			case "getOptions":
-				// request from the content script to get the options.
 				sendResponse({
 					isCanShow : isCanShow
 				});
@@ -34,10 +32,9 @@ chrome.extension.onMessage.addListener(
 		
 			case "getInfo":
 				var currentURL = sender.tab.url;
-				console.log('isCanShow ' + isCanShow);
 				if (currentDetailList[currentURL] !== undefined) {
 					sendResponse({
-						"isCanShow":true,
+						"isCanShow":isCanShow,
 						"detail":currentDetailList[currentURL]
 					});
 				} else {
@@ -50,7 +47,7 @@ chrome.extension.onMessage.addListener(
 			break;
 			
 			default:
-			sendResponse({"isCanShow":isCanShow});
+			sendResponse({});
 		}
 	}
 );
