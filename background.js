@@ -1,6 +1,7 @@
 var config = {
 	"isCanShow":true,
-	"isLeftRightAble":false
+	"isLeftRightAble":false,
+	"isShowBackTimes":true		// 是否展示后端的性能
 };
 
 var currentDetailList	= {};

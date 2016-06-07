@@ -21,14 +21,14 @@ $(document).ready(function() {
 			} else {
 				t += "<table>";
 				t += "<tr>";
-				if( headerObj.pipe_log_timestamp != undefined ) {
+				if( headerObj.pipe_log_timestamp != undefined && config.isShowBackTimes) {
 					t += "<td>" + headerObj.pipe_log_timestamp +  "</td>";
 				}
 				t += "<td>&nbsp;&nbsp;" + ip +"</tr>";
 				if(headerObj.pipe_front_times != undefined){
 					t += "<tr><td>" + info.detail.url + "</td><td>" + headerObj.pipe_front_times +" ms</tr>";
 				}	
-				if(headerObj.pipe_back_times != undefined){
+				if(headerObj.pipe_back_times != undefined && config.isShowBackTimes ){
 					var backTimes = eval('(' + headerObj.pipe_back_times +')');
 					var backTimesArray =[];
 					for(var key in backTimes){
@@ -78,7 +78,7 @@ function loadOptions() {
 	chrome.extension.sendMessage({name: "getOptions"}, function(response) {
 		var configTemp = response;
 		if (typeof configTemp == 'undefined') {
-			chrome.extension.sendMessage({name: "setOptions", "config":{"isCanShow":true,"isLeftRightAble":false}}, function(response) {
+			chrome.extension.sendMessage({name: "setOptions", "config":{"isCanShow":true,"isLeftRightAble":false,"isShowBackTimes":true}}, function(response) {
 			});
 		};
 		
@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
 	chrome.extension.sendMessage({name: "getOptions"}, function(response) {
 		$('input[name="isCanShow"][value=' + response.isCanShow + ']').attr('checked', 'checked');
 		$('input[name="isLeftRightAble"][value=' + response.isLeftRightAble + ']').attr('checked', 'checked');
+		$('input[name="isShowBackTimes"][value=' + response.isShowBackTimes + ']').attr('checked', 'checked');
 		// alert("show " + response.isCanShow + " " + response.isLeftRightAble);
 	});
 
@@ -105,6 +106,7 @@ function getConfig () {
 	var config = {};
 	var isCanShowStr = $('input[name="isCanShow"]:checked').val();
 	var isLeftRightAbleStr = $('input[name="isLeftRightAble"]:checked').val();
+	var isShowBackTimesStr = $('input[name="isShowBackTimes"]:checked').val();
 	if (isCanShowStr == "false") {
 		config.isCanShow = false;	
 	} else {
@@ -114,6 +116,11 @@ function getConfig () {
 		config.isLeftRightAble = false;	
 	} else {
 		config.isLeftRightAble = true;	
+	}
+	if (isShowBackTimesStr == "false") {
+		config.isShowBackTimes = false;	
+	} else {
+		config.isShowBackTimes = true;	
 	}
 	return config;
 }
