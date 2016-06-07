@@ -1,9 +1,11 @@
+var config;
 $(document).ready(function() {
 	chrome.extension.sendMessage({name: "getInfo"}, function(info) {
-		// console.log(info);
+		console.log(info);
 		if (info == undefined) {return;}
 		if (info.config == undefined) {return;}
-		var config = info.config;
+		config = info.config;
+		console.log(config);
 		var isCanShow = info.config.isCanShow;
 		if (isCanShow == true) {
 			var ip = info.detail.ip;
@@ -64,40 +66,54 @@ $(document).ready(function() {
 			});
 		}
 	});
+	loadOptions(); //To set default value on pop-up button
 		
-	
-	
 });
 
 function backTimesSortOrder(o1,o2) {
 	return o2.time - o1.time;
 }
 
+function loadOptions() {
+	chrome.extension.sendMessage({name: "getOptions"}, function(response) {
+		var configTemp = response;
+		if (typeof configTemp == 'undefined') {
+			chrome.extension.sendMessage({name: "setOptions", "config":{"isCanShow":true,"isLeftRightAble":false}}, function(response) {
+			});
+		};
+		
+	});
+}
 
 // popup button clicked
 document.addEventListener('DOMContentLoaded', function () {
 	chrome.extension.sendMessage({name: "getOptions"}, function(response) {
-		console.log(response);
-		if(response.isCanShow == false){
-			$("#isCanShow").val('是');	
-		} else {
-			$("#isCanShow").val('否');	
-		}
-		
+		$('input[name="isCanShow"][value=' + response.isCanShow + ']').attr('checked', 'checked');
+		$('input[name="isLeftRightAble"][value=' + response.isLeftRightAble + ']').attr('checked', 'checked');
+		// alert("show " + response.isCanShow + " " + response.isLeftRightAble);
 	});
-	
-	document.querySelector('input').addEventListener('click', function() {
-		if ($('#isCanShow').val() == "否") {
-			chrome.extension.sendMessage({name: "setOptions", isCanShow:true}, function(response) {
-				console.log(response);
-			});
-			$('#isCanShow').val('是')	
-		}
-		else if ($('#isCanShow').val() == "是") {
-			chrome.extension.sendMessage({name: "setOptions", isCanShow:false}, function(response) {
-				console.log(response);
-			});
-			$('#isCanShow').val('否')
-		}
+
+	$(".radioItem").change(function() {
+		var config = getConfig();
+		chrome.extension.sendMessage({name: "setOptions", "config":config}, function(response) {
+			// alert("set " + response.isCanShow + " " + response.isLeftRightAble);
+		});
 	});
 });
+
+function getConfig () {
+	var config = {};
+	var isCanShowStr = $('input[name="isCanShow"]:checked').val();
+	var isLeftRightAbleStr = $('input[name="isLeftRightAble"]:checked').val();
+	if (isCanShowStr == "false") {
+		config.isCanShow = false;	
+	} else {
+		config.isCanShow = true;	
+	}
+	if (isLeftRightAbleStr == "false") {
+		config.isLeftRightAble = false;	
+	} else {
+		config.isLeftRightAble = true;	
+	}
+	return config;
+}

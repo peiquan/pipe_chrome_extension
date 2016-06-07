@@ -20,6 +20,9 @@
 	user-select: none;
 }
 
+#content {
+	width: 200px;
+}
 .pipe_show_right {
 	right: 1%;
 }
