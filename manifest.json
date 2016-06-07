@@ -25,8 +25,8 @@
     "content_scripts": [{
 		"all_frames": false, 
 		"run_at": "document_end", 
-		"js": ["jquery.min.js", "ip.js"],
-		"css": ["css/ip.css"], 
+		"js": ["jquery.min.js", "main.js"],
+		"css": ["css/main.css"], 
 		"matches": ["http://*/*", "https://*/*"]
 	}]
    
