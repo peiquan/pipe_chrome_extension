@@ -50,7 +50,7 @@ $(document).ready(function() {
 				}
 				t += "</table>";
 			}
-			$("body").append('<div id="pipe_show" class="pipe_show_left">' + t + '</div>');
+			$("body").append('<div id="pipe_show" class="pipe_show_right">' + t + '</div>');
 		} 
 
 		if (config.isLeftRightAble == true) {
