@@ -25,7 +25,7 @@ $(document).ready(function() {
 					t += "<td>" + headerObj.pipe_log_timestamp +  "</td>";
 				}
 				t += "<td>&nbsp;&nbsp;" + ip +"</tr>";
-				if(headerObj.pipe_front_times != undefined){
+				if(headerObj.pipe_front_times != undefined && config.isShowBackTimes ){
 					t += "<tr><td>" + info.detail.url + "</td><td>" + headerObj.pipe_front_times +" ms</tr>";
 				}	
 				if(headerObj.pipe_back_times != undefined && config.isShowBackTimes ){
