@@ -39,7 +39,7 @@ $(document).ready(function() {
 						t += "<tr><td>" + backTimesArray[i].key + "</td><td>";
 						if (backTimesArray[i].time < 0) {
 							if (backTimesArray[i].time == -1) {
-								t += "异常</tr>";	
+								t += '<a target="_blank" href="http://elasticsearch-fin.yy.com/logstash-pipe-debug/logs/_search?pretty&q=pipe_log_timestamp:' + headerObj.pipe_log_timestamp +'">异常</a></tr>';	
 							} else if(backTimesArray[i].time == -2){
 								t += "5s超时</tr>";
 							}
