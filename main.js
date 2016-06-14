@@ -1,11 +1,11 @@
 var config;
 $(document).ready(function() {
 	chrome.extension.sendMessage({name: "getInfo"}, function(info) {
-		console.log(info);
+		// console.log(info);
 		if (info == undefined) {return;}
 		if (info.config == undefined) {return;}
 		config = info.config;
-		console.log(config);
+		// console.log(config);
 		var isCanShow = info.config.isCanShow;
 		if (isCanShow == true) {
 			var ip = info.detail.ip;
