@@ -41,7 +41,7 @@ $(document).ready(function() {
 							if (backTimesArray[i].time == -1) {
 								t += '<a target="_blank" href="http://pipe-elk.zhiniu8.com/pipe?pipe_log_timestamp=' + headerObj.pipe_log_timestamp +'&&uri=' + backTimesArray[i].key + '">异常</a></tr>';	
 							} else if(backTimesArray[i].time == -2){
-								t += "5s超时</tr>";
+								t += "超时</tr>";
 							}
 						} else {
 							t += backTimesArray[i].time +" ms</tr>";
